@@ -1,0 +1,43 @@
+@import './styles/Modals.css';
+
+
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  position: relative;
+}
+
+.footer {
+  width: 100%;
+  background-color: #192742;
+  padding: 20px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+  margin-top: auto;
+  /* Двигаем футер к низу страницы */
+}
+
+.main-content {
+  flex: 1;
+  z-index: 1;
+  /* помещаем контент на передний план */
+  padding: 20px;
+  /* добавляем отступы для контента */
+  background: rgba(255, 255, 255, 0.274);
+  /* полупрозрачный белый фон для контента */
+  margin-top: 70px;
+  /* отступ, чтобы контент не перекрывал хедер */
+}

@@ -1,0 +1,60 @@
+.header {
+    background-color: #0b1a2c;
+    color: white;
+    padding: 10px 20px;
+}
+
+.header-container {
+    display: flex;
+    align-items: center;
+    /* Центрирование по вертикали */
+    justify-content: space-between;
+}
+
+.brand a img {
+    height: 40px;
+}
+
+.nav {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.nav-list {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    /* Центрирование по вертикали */
+    gap: 20px;
+}
+
+.nav-list li {
+    position: relative;
+}
+
+.nav-list li a,
+.nav-list li button {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.nav-button {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.cart-icon {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    /* Центрирование по вертикали */
+}
+
+.cart-icon a {
+    color: white;
+}
