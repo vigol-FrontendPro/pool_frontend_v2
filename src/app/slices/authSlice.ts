@@ -8,12 +8,26 @@ interface AuthState {
   error: string | null;
 }
 
+// функция для получения пользователя из localStorage
+const getUserFromLocalStorage = (): User | null => {
+  const user = localStorage.getItem('user');
+  if (!user) return null; // если нет данных, возвращаем null
+  try {
+    return JSON.parse(user);
+  } catch (error) {
+    console.error('Error parsing user from localStorage:', error);
+    localStorage.removeItem('user'); // удаляем некорректные данные из localStorage
+    return null;
+  }
+};
+
 const initialState: AuthState = {
-  user: JSON.parse(localStorage.getItem('user') || 'null'),
-  isAuthenticated: !!localStorage.getItem('user'),
+  user: getUserFromLocalStorage(),
+  isAuthenticated: !!getUserFromLocalStorage(),
   error: null,
 };
 
+// асинхронный thunk для логина пользователя
 export const loginUser = createAsyncThunk('auth/login', async (credentials: { username: string; password: string }) => {
   const response = await axios.post('/api/login', new URLSearchParams(credentials), {
     headers: {
@@ -24,6 +38,7 @@ export const loginUser = createAsyncThunk('auth/login', async (credentials: { us
   return response.data.user;
 });
 
+// асинхронный thunk для регистрации пользователя
 export const registerUser = createAsyncThunk('auth/register', async (userData: User) => {
   const response = await axios.post('/api/users/register', userData, {
     headers: {
@@ -34,10 +49,12 @@ export const registerUser = createAsyncThunk('auth/register', async (userData: U
   return response.data;
 });
 
+// асинхронный thunk для логаута пользователя
 export const logoutUser = createAsyncThunk('auth/logout', async () => {
   await axios.post('/api/logout', {}, { withCredentials: true });
 });
 
+// создание slice для управления состоянием авторизации
 const authSlice = createSlice({
   name: 'auth',
   initialState,

@@ -1,10 +1,10 @@
-import React from 'react';
-import '../styles/BackgroundImage.css';
+// import React from 'react';
+// import '../styles/BackgroundImage.css';
 
-const BackgroundImage: React.FC = () => {
-  return (
-    <div className="background-image" />
-  );
-};
+// const BackgroundImage: React.FC = () => {
+//   return (
+//     <div className="background-image" />
+//   );
+// };
 
-export default BackgroundImage;
+// export default BackgroundImage;

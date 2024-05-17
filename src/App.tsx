@@ -10,8 +10,9 @@ import Cart from './pages/Cart';
 import Profile from './pages/Profile';
 import AdminUsers from './pages/AdminUsers';
 import AdminProducts from './pages/AdminProducts';
+// import BackgroundImage from './components/BackgroundImage ';
 import './index.css';
-import BackgroundImage from './components/BackgroundImage ';
+
 
 const App: React.FC = () => {
   const { user } = useSelector((state: RootState) => state.auth);
@@ -20,7 +21,7 @@ const App: React.FC = () => {
     <Router>
       <div className="app">
         <Header />
-        <BackgroundImage />
+        {/* <BackgroundImage /> */}
         <main className="main-content">
           <Routes>
             <Route path="/" element={<Home />} />

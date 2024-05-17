@@ -1,17 +1,13 @@
-.background-image {
+/* BackgroundImage.css */
+/* .background-image {
   background-image: url('../image/head-d.png');
   background-size: cover;
-  /*  покрывает весь экран */
   background-position: center;
-  /* центрировано */
   background-repeat: no-repeat;
-  /* не повторяется */
   width: 100%;
-  height: 100%;
-  position: fixed;
-  /* фиксированное позиционирование */
+  height: calc(100vh - 140px);
+  position: absolute;
   top: 0;
   left: 0;
   z-index: -1;
-  /* на задний план*/
-}
+} */
