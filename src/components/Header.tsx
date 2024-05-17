@@ -16,6 +16,7 @@ const Header: React.FC = () => {
   const [isLoginModalOpen, setLoginModalOpen] = useState(false);
   const [isRegisterModalOpen, setRegisterModalOpen] = useState(false);
 
+  // Функция для выхода из системы
   const handleLogout = async () => {
     try {
       await axios.post('/api/logout');

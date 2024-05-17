@@ -1,16 +1,16 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { createRoot } from 'react-dom/client';
-import App from './App';
+import { BrowserRouter } from 'react-router-dom';
 import store from './app/store';
+import App from './App';
 import './index.css';
 
-// создаем корень для React 18
-const container = document.getElementById('root');
-const root = createRoot(container!);
-
-root.render(
+ReactDOM.render(
   <Provider store={store}>
-    <App />
-  </Provider>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </Provider>,
+  document.getElementById('root')
 );
