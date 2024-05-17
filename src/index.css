@@ -18,6 +18,18 @@ body {
   position: relative;
 }
 
+.main-content {
+  flex: 1;
+  z-index: 1;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.9);
+  margin-top: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
 .footer {
   width: 100%;
   background-color: #192742;
@@ -27,17 +39,4 @@ body {
   align-items: center;
   z-index: 2;
   margin-top: auto;
-  /* Двигаем футер к низу страницы */
-}
-
-.main-content {
-  flex: 1;
-  z-index: 1;
-  /* помещаем контент на передний план */
-  padding: 20px;
-  /* добавляем отступы для контента */
-  background: rgba(255, 255, 255, 0.274);
-  /* полупрозрачный белый фон для контента */
-  margin-top: 70px;
-  /* отступ, чтобы контент не перекрывал хедер */
 }

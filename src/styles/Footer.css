@@ -1,31 +1,32 @@
 .footer {
     width: 100%;
-    background-color: #1244a8;
+    background-color: #1f2e50;
     padding: 20px 0;
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-.footer-container {
+  }
+  
+  .footer-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 80%;
     max-width: 1200px;
-}
-
-.brand img {
+  }
+  
+  .brand img {
     height: 50px;
-}
-
-.social-icons a {
+  }
+  
+  .social-icons a {
     color: white;
     font-size: 24px;
     margin: 0 10px;
     transition: color 0.3s;
-}
-
-.social-icons a:hover {
+  }
+  
+  .social-icons a:hover {
     color: #5788f5;
-}
+  }
+  

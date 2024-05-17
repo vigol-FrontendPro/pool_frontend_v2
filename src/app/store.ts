@@ -1,4 +1,3 @@
-// src/app/store.ts
 import { configureStore } from '@reduxjs/toolkit';
 import { createBrowserHistory } from 'history';
 import authReducer from './slices/authSlice';

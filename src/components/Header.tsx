@@ -1,29 +1,35 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
 import { RootState, AppDispatch } from '../app/store';
-import { logoutUser, logout } from '../app/slices/authSlice';
-import logo from '../image/logo.png';
+import { logoutUser } from '../app/slices/authSlice';
 import LoginModal from './LoginModal';
 import RegisterModal from './RegisterModal';
-import '../styles/Header.css';
-import axios from 'axios';
 import { FaShoppingCart } from 'react-icons/fa';
+import logo from '../image/logo.png';
+import '../styles/Header.css';
 
 const Header: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
+  const navigate = useNavigate();
+  const { items } = useSelector((state: RootState) => state.cart);
   const { isAuthenticated, user } = useSelector((state: RootState) => state.auth);
   const [isLoginModalOpen, setLoginModalOpen] = useState(false);
   const [isRegisterModalOpen, setRegisterModalOpen] = useState(false);
 
-  // Функция для выхода из системы
+  const totalItems = items.reduce((total, item) => total + item.quantity, 0);
+
   const handleLogout = async () => {
     try {
-      await axios.post('/api/logout');
-      dispatch(logout());
+      await dispatch(logoutUser()).unwrap();
+      navigate('/');
     } catch (error) {
       console.error('Logout failed', error);
     }
+  };
+
+  const handleLogin = () => {
+    setLoginModalOpen(true);
   };
 
   return (
@@ -35,7 +41,7 @@ const Header: React.FC = () => {
         <nav className="nav">
           <ul className="nav-list">
             <li>
-              <Link to="/bass/">Бассейны</Link>
+              <Link to="/pools/">Бассейны</Link>
             </li>
             <li>
               <Link to="/hamamy/">Хамамы</Link>
@@ -63,12 +69,13 @@ const Header: React.FC = () => {
               </>
             ) : (
               <li>
-                <button onClick={() => setLoginModalOpen(true)} className="nav-button">Войти</button>
+                <button onClick={handleLogin} className="nav-button">Войти</button>
               </li>
             )}
             <li className="cart-icon">
               <Link to="/cart">
                 <FaShoppingCart size={24} />
+                {totalItems > 0 && <span className="cart-count">{totalItems}</span>}
               </Link>
             </li>
           </ul>

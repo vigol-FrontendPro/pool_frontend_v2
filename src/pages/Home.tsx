@@ -1,26 +1,16 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../app/store';
-import { User } from '../app/slices/types';
-import '../styles/Home.css'; 
+import '../styles/Home.css';
 
 const Home: React.FC = () => {
-    // информацию о текущем пользователе
-    const user: User | null = useSelector((state: RootState) => state.auth.user);
+  const { user } = useSelector((state: RootState) => state.auth);
 
-    return (
-        <div className="home-container">
-            {user ? (
-                <span className="welcome-message">
-                    Добро пожаловать, {user.firstName} {user.lastName}
-                </span>
-            ) : (
-                <span className="welcome-message">
-                    Добро пожаловать!
-                </span>
-            )}
-        </div>
-    );
+  return (
+    <div className="home-container">
+      <h1>Добро пожаловать{user ? `, ${user.firstName} ${user.lastName}` : ''}</h1>
+    </div>
+  );
 };
 
 export default Home;

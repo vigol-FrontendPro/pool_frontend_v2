@@ -14,18 +14,28 @@ const initialState: UsersState = {
   error: null,
 }
 
-//функция для получения списка пользователей
 export const fetchUsers = createAsyncThunk("users/fetchUsers", async () => {
   const response = await axios.get("/api/users/users")
   return response.data
 })
 
-//функция для удаления пользователя
 export const deleteUser = createAsyncThunk(
   "users/deleteUser",
   async (id: number) => {
     await axios.delete(`/api/users/${id}`)
     return id
+  },
+)
+
+export const updateUser = createAsyncThunk(
+  "users/updateUser",
+  async (user: User) => {
+    const response = await axios.put(`/api/users/${user.id}`, user, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+    return response.data
   },
 )
 
@@ -45,11 +55,16 @@ const usersSlice = createSlice({
       })
       .addCase(fetchUsers.rejected, (state, action) => {
         state.loading = false
-        state.error =
-          action.error.message || "Не удалось загрузить пользователей"
+        state.error = action.error.message || "Не удалось загрузить пользователей"
       })
       .addCase(deleteUser.fulfilled, (state, action: PayloadAction<number>) => {
         state.users = state.users.filter(user => user.id !== action.payload)
+      })
+      .addCase(updateUser.fulfilled, (state, action: PayloadAction<User>) => {
+        const index = state.users.findIndex(user => user.id === action.payload.id)
+        if (index !== -1) {
+          state.users[index] = action.payload
+        }
       })
   },
 })

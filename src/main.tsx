@@ -1,16 +1,20 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom/client'; // Используем createRoot из react-dom/client
 import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
-import store from './app/store';
+import { BrowserRouter as Router } from 'react-router-dom';
 import App from './App';
+import store from './app/store';
 import './index.css';
 
-ReactDOM.render(
-  <Provider store={store}>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </Provider>,
-  document.getElementById('root')
-);
+// Обновляем метод рендеринга на createRoot
+const rootElement = document.getElementById('root');
+if (rootElement) {
+  const root = ReactDOM.createRoot(rootElement);
+  root.render(
+    <Provider store={store}>
+      <Router>
+        <App />
+      </Router>
+    </Provider>
+  );
+}
