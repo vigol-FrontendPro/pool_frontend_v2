@@ -1,48 +1,69 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../app/store';
-import { removeFromCart, clearCart } from '../app/slices/cartSlice';
+import { RootState, AppDispatch } from '@app/store';
+import { fetchCart, addToCart, removeFromCart, updateCartProduct, clearCart } from '@app/slices/cartSlice';
+import { CartProduct } from '@app/types';
 import axios from 'axios';
+import '@styles/Cart.css';
 
 const Cart: React.FC = () => {
-    const dispatch = useDispatch();
-    const { items } = useSelector((state: RootState) => state.cart);
-    const { isAuthenticated, user } = useSelector((state: RootState) => state.auth);
+  const dispatch: AppDispatch = useDispatch();
+  const { cart, loading, error } = useSelector((state: RootState) => state.cart);
+  const { isAuthenticated, user } = useSelector((state: RootState) => state.auth);
 
-    // Функция для удаления продукта из корзины
-    const handleRemove = (productId: number) => {
-        dispatch(removeFromCart(productId));
-    };
+  useEffect(() => {
+    if (user && user.id) {
+      dispatch(fetchCart(user.id));
+    }
+  }, [dispatch, user]);
 
-    // Функция для оформления заказа
-    const handleOrder = async () => {
-        if (user) {  // Проверка на наличие пользователя
-            try {
-                await axios.post('/api/orders', {
-                    userId: user.id,
-                    products: items,
-                });
-                dispatch(clearCart());
-            } catch (error) {
-                console.error('Order failed', error);
-            }
-        }
-    };
+  const handleRemove = (cartProductId: number) => {
+    if (cart) {
+      dispatch(removeFromCart({ cartId: cart.id, cartProductId }));
+    }
+  };
 
-    return (
-        <div>
-            <h1>Корзина</h1>
-            <ul>
-                {items.map(item => (
-                    <li key={item.id}>
-                        {item.name} - ${item.price} - Количество: {item.quantity}
-                        <button onClick={() => handleRemove(item.id)}>Удалить</button>
-                    </li>
-                ))}
-            </ul>
-            {isAuthenticated && user && <button onClick={handleOrder}>Оформить заказ</button>}
-        </div>
-    );
+  const handleUpdateQuantity = (product: CartProduct, quantity: number) => {
+    if (cart) {
+      dispatch(updateCartProduct({ ...product, quantity }));
+    }
+  };
+
+  const handleOrder = async () => {
+    if (user && cart) {
+      try {
+        await axios.post('/api/orders', {
+          userId: user.id,
+          products: cart.products,
+        });
+        dispatch(clearCart(cart.id));
+      } catch (error) {
+        console.error('Ошибка заказа', error);
+      }
+    }
+  };
+
+  if (loading) return <p>Загрузка...</p>;
+  if (error) return <p>{error}</p>;
+
+  return (
+    <div>
+      <h1>Корзина</h1>
+      <ul className="cart-list">
+        {cart?.products.map((item) => (
+          <li key={item.id}>
+            <span>{item.productId} - Количество: {item.quantity}</span>
+            <button onClick={() => handleRemove(item.id)}>Удалить</button>
+            <button onClick={() => handleUpdateQuantity(item, item.quantity + 1)}>+</button>
+            <button onClick={() => handleUpdateQuantity(item, item.quantity - 1)}>-</button>
+          </li>
+        ))}
+      </ul>
+      {isAuthenticated && user && cart && cart.products.length > 0 && (
+        <button onClick={handleOrder}>Оформить заказ</button>
+      )}
+    </div>
+  );
 };
 
 export default Cart;

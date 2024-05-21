@@ -1,9 +1,8 @@
-
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { loginUser } from '../app/slices/authSlice';
-import '../styles/Modals.css';
-import { RootState, AppDispatch } from '../app/store';
+import { loginUser } from '@app/slices/authSlice';
+import '@styles/Modals.css';
+import { RootState, AppDispatch } from '@app/store';
 
 interface LoginModalProps {
   isOpen: boolean;
@@ -18,12 +17,8 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onRegister }) 
   const error = useSelector((state: RootState) => state.auth.error);
 
   const handleLogin = async () => {
-    try {
-      await dispatch(loginUser({ username, password })).unwrap();
-      onClose();
-    } catch (err) {
-      console.error('Login failed:', err);
-    }
+    await dispatch(loginUser({ username, password }));
+    onClose();
   };
 
   if (!isOpen) return null;
@@ -32,18 +27,8 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onRegister }) 
     <div className="modal">
       <h2>Вход</h2>
       {error && <p className="error">{error}</p>}
-      <input
-        type="text"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-        placeholder="Имя пользователя"
-      />
-      <input
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        placeholder="Пароль"
-      />
+      <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Имя пользователя" />
+      <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Пароль" />
       <button onClick={handleLogin}>Войти</button>
       <button onClick={onRegister}>Регистрация</button>
       <button onClick={onClose}>Закрыть</button>

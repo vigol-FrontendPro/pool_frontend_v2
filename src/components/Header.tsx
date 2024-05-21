@@ -1,30 +1,32 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { RootState, AppDispatch } from '../app/store';
-import { logoutUser } from '../app/slices/authSlice';
-import LoginModal from './LoginModal';
-import RegisterModal from './RegisterModal';
+import { RootState, AppDispatch } from '@app/store';
+import { logoutUser } from '@app/slices/authSlice';
+import LoginModal from '@components/LoginModal';
+import RegisterModal from '@components/RegisterModal';
 import { FaShoppingCart } from 'react-icons/fa';
-import logo from '../image/logo.png';
-import '../styles/Header.css';
+import logo from '@assets/logo.png';
+import '@styles/Header.css';
 
 const Header: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
-  const { items } = useSelector((state: RootState) => state.cart);
+  const { cart } = useSelector((state: RootState) => state.cart);
   const { isAuthenticated, user } = useSelector((state: RootState) => state.auth);
   const [isLoginModalOpen, setLoginModalOpen] = useState(false);
   const [isRegisterModalOpen, setRegisterModalOpen] = useState(false);
 
-  const totalItems = items.reduce((total, item) => total + item.quantity, 0);
+  console.log('Header User:', user);
+
+  const totalItems = cart?.products.reduce((total, item) => total + item.quantity, 0) || 0;
 
   const handleLogout = async () => {
     try {
       await dispatch(logoutUser()).unwrap();
       navigate('/');
     } catch (error) {
-      console.error('Logout failed', error);
+      console.error('Ошибка выхода', error);
     }
   };
 

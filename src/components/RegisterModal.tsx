@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { registerUser } from '../app/slices/authSlice';
-import { RootState, AppDispatch } from '../app/store';
-import { User } from '../app/slices/types';
-import { useNavigate } from 'react-router-dom';
-import '../styles/Modals.css';
+import { registerUser } from '@app/slices/authSlice';
+import '@styles/Modals.css';
+import { RootState, AppDispatch } from '@app/store';
+import { User } from '@app/types';
 
 interface RegisterModalProps {
   isOpen: boolean;
@@ -19,12 +18,10 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ isOpen, onClose }) => {
   const [password, setPassword] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const error = useSelector((state: RootState) => state.auth.error);
-  const navigate = useNavigate();
 
   const handleRegister = async () => {
     await dispatch(registerUser({ firstName, lastName, email, password, phoneNumber, role: 'USER' } as User));
     onClose();
-    navigate('/');
   };
 
   if (!isOpen) return null;

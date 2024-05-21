@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { RootState, AppDispatch } from '../app/store';
-import { fetchUsers, deleteUser, updateUser } from '../app/slices/usersSlice';
-import { User } from '../app/slices/types';
+import { RootState, AppDispatch } from '@app/store';
+import { fetchUsers, deleteUser, updateUser } from '@app/slices/usersSlice';
+import { User } from '@app/types';
+import '@styles/Profile.css';
 
 const Profile: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();

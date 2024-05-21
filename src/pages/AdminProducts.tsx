@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { RootState, AppDispatch } from '../app/store';
-import { fetchProducts, addProduct, updateProduct } from '../app/slices/productsSlice';
-import { Product } from '../app/slices/types';
+import { RootState, AppDispatch } from '@app/store';
+import { fetchProducts, addProduct, updateProduct } from '@app/slices/productsSlice';
+import { Product } from '@app/types';
 
 const AdminProducts: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
   const { products, loading, error } = useSelector((state: RootState) => state.products);
-  const [newProduct, setNewProduct] = useState<Omit<Product, 'id'>>({ imageUrl: '', name: '', title: '', description: '', price: 0 });
+  const [newProduct, setNewProduct] = useState<Omit<Product, 'id'>>({ title: '', description: '', price: 0, imageUrl: '' });
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
 
   useEffect(() => {
@@ -16,7 +16,7 @@ const AdminProducts: React.FC = () => {
 
   const handleAddProduct = () => {
     dispatch(addProduct(newProduct));
-    setNewProduct({ imageUrl: '', name: '', title: '', description: '', price: 0 });
+    setNewProduct({ title: '', description: '', price: 0, imageUrl: '' });
   };
 
   const handleUpdateProduct = (product: Product) => {
@@ -31,14 +31,14 @@ const AdminProducts: React.FC = () => {
     <div>
       <h1>Продукты</h1>
       <ul>
-        {products.map(product => (
+        {products.map((product) => (
           <li key={product.id}>
             {editingProduct && editingProduct.id === product.id ? (
               <div>
                 <input
                   type="text"
-                  value={editingProduct.name}
-                  onChange={(e) => setEditingProduct({ ...editingProduct, name: e.target.value })}
+                  value={editingProduct.title}
+                  onChange={(e) => setEditingProduct({ ...editingProduct, title: e.target.value })}
                 />
                 <input
                   type="text"
@@ -54,7 +54,7 @@ const AdminProducts: React.FC = () => {
               </div>
             ) : (
               <div>
-                {product.name} - {product.description} - {product.price} руб.
+                {product.title} - {product.description} - {product.price} руб.
                 <button onClick={() => setEditingProduct(product)}>Редактировать</button>
               </div>
             )}
@@ -65,8 +65,8 @@ const AdminProducts: React.FC = () => {
         <h2>Добавить продукт</h2>
         <input
           type="text"
-          value={newProduct.name}
-          onChange={(e) => setNewProduct({ ...newProduct, name: e.target.value })}
+          value={newProduct.title}
+          onChange={(e) => setNewProduct({ ...newProduct, title: e.target.value })}
           placeholder="Название"
         />
         <input
@@ -81,7 +81,13 @@ const AdminProducts: React.FC = () => {
           onChange={(e) => setNewProduct({ ...newProduct, price: +e.target.value })}
           placeholder="Цена"
         />
-        <button onClick={handleAddProduct}>Добавить</button>
+        <input
+          type="text"
+          value={newProduct.imageUrl}
+          onChange={(e) => setNewProduct({ ...newProduct, imageUrl: e.target.value })}
+          placeholder="URL изображения"
+        />
+        <button onClick={handleAddProduct}>Добавить продукт</button>
       </div>
     </div>
   );

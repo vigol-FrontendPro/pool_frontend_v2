@@ -1,3 +1,5 @@
+@import './Modals.css';
+
 html,
 body {
   height: 100%;
@@ -12,6 +14,17 @@ body {
   flex-direction: column;
   min-height: 100vh;
   position: relative;
+}
+
+.footer {
+  width: 100%;
+  background-color: #192742;
+  padding: 20px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+  margin-top: auto;
 }
 
 .main-content {
